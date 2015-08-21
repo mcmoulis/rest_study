@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cxf="http://cxf.apache.org/core" xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<description>
+		All JAX-RS services are wired here.
+	</description>
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<context:component-scan base-package="com.mcms.study.rest" />
+
+	<cxf:bus>
+		<cxf:features>
+			<cxf:logging />
+		</cxf:features>
+	</cxf:bus>
+
+	<jaxrs:server id="restServices" address="/">
+		<jaxrs:serviceBeans>
+			<ref bean="bookService" />
+			<ref bean="reviewService" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
+			<bean class="com.mcms.study.rest.interceptor.RequestIdGenerationFilter" />
+			<bean class="com.mcms.study.rest.interceptor.RequestIdAppenderFilter" />
+			<bean class="com.mcms.study.rest.interceptor.SystemExceptionMapper" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+</beans>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.mcms.study.rest</groupId>
+	<artifactId>rest-simple</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>${project.artifactId}</name>
+
+	<description>
+		REST + CXF Study.
+  	</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<spring.version>4.2.0.RELEASE</spring.version>
+		<cxf.version>3.1.1</cxf.version>
+		<jackson.version>2.6.1</jackson.version>
+		<jetty.port>9999</jetty.port>
+		<jetty.version>9.3.0.v20150612</jetty.version>
+		<junit.version>4.12</junit.version>
+		<javax.servlet.api.version>3.1.0</javax.servlet.api.version>
+	</properties>
+
+	<dependencies>
+		<!-- Common -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<!-- Server -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet.api.version}</version>
+			<scope>provided</scope> <!-- by container env -->
+		</dependency>
+		<!-- Client -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-rs-client</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<!-- Test -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
+			<version>${cxf.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>rest-study</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
+				<configuration>
+					<useProvidedScope>true</useProvidedScope>
+					<useTestScope>true</useTestScope>
+					<webAppConfig>
+						<contextPath>/study</contextPath>
+					</webAppConfig>
+					<systemProperties>
+						<systemProperty>
+							<name>java.net.preferIPV4Stack</name>
+							<value>true</value>
+						</systemProperty>
+					</systemProperties>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<httpConnector>
+						<port>${jetty.port}</port>
+					</httpConnector>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
